@@ -34,7 +34,7 @@ public class FileInfo implements Serializable {
 	private String fileName;
 	
 	private String fileExt;
-	private Integer fileSize;
+	private Long fileSize;
 	private String directory;
 	private String fileType;
 	private String delYn;

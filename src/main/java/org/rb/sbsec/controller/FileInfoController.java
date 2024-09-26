@@ -40,6 +40,7 @@ import java.util.List;
 import org.rb.sbsec.exception.BadResourceException;
 import org.rb.sbsec.exception.ResourceAlreadyExistsException;
 import org.rb.sbsec.exception.ResourceNotFoundException;
+import org.rb.sbsec.logic.FileInfoLogicService;
 import org.rb.sbsec.model.FileInfo;
 import org.rb.sbsec.service.FileInfoService;
 import org.slf4j.Logger;
@@ -78,6 +79,9 @@ public class FileInfoController {
 
     @Autowired
     private FileInfoService fileInfoService;
+    
+    @Autowired
+    private FileInfoLogicService fileInfoLogicService;
 
     @ApiOperation(value = "Find FileInfos by name", notes = "Name search by %name% format", tags = {"fileInfo"})
     @ApiResponses(value = {
@@ -211,5 +215,25 @@ public class FileInfoController {
             logger.error(ex.getMessage());
             return ResponseEntity.notFound().build();
         }
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    @GetMapping(value = "/readFileList")
+    public ResponseEntity<List<FileInfo>> readFileList() throws Exception {
+//    	fileInfoLogicService.getFileInfoList();
+//    	 return ResponseEntity.ok().build();
+    	 return ResponseEntity.ok(fileInfoLogicService.getFileInfoList());
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    @GetMapping(value = "/insertFileList")
+    public ResponseEntity<List<FileInfo>> insertFileList() throws Exception {
+    	 return ResponseEntity.ok(fileInfoLogicService.insertfile());
     }
 }
