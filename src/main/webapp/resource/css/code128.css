@@ -1,0 +1,132 @@
+/*
+20190923 KHJ 
+바코드 크기 전체 수정
+*/
+
+/* .barcode {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; FLOAT: left; HEIGHT: 0.55in; CLEAR: both; PADDING-TOP: 0px
+}
+.right {
+	FLOAT: right
+}
+.barcode + * {
+	CLEAR: both
+}
+.barcode DIV {
+	FLOAT: left; HEIGHT: 0.4in
+}
+.barcode .bar1 {
+	BORDER-LEFT: black 1.4px solid
+}
+.barcode .bar2 {
+	BORDER-LEFT: black 2.8px solid
+}
+.barcode .bar3 {
+	BORDER-LEFT: black 4.2px solid
+}
+.barcode .bar4 {
+	BORDER-LEFT: black 5.6px solid
+}
+.barcode .space0 {
+	MARGIN-RIGHT: 0px
+}
+.barcode .space1 {
+	MARGIN-RIGHT: 1.4px
+}
+.barcode .space2 {
+	MARGIN-RIGHT: 2.8px
+}
+.barcode .space3 {
+	MARGIN-RIGHT: 4.2px
+}
+.barcode .space4 {
+	MARGIN-RIGHT: 5.6px
+}
+.barcode LABEL {
+	TEXT-ALIGN: center; DISPLAY: block; FONT: 0.13in/100% helvetica; CLEAR: both
+} */
+
+
+.barcode {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; FLOAT: left; HEIGHT: 0.55in; CLEAR: both; PADDING-TOP: 0px
+}
+.right {
+	FLOAT: right
+}
+.barcode + * {
+	CLEAR: both
+}
+.barcode DIV {
+	FLOAT: left; HEIGHT: 0.4in
+}
+.barcode .bar1 {
+	BORDER-LEFT: black 1.5px solid
+}
+.barcode .bar2 {
+	BORDER-LEFT: black 3px solid
+}
+.barcode .bar3 {
+	BORDER-LEFT: black 4.5px solid
+}
+.barcode .bar4 {
+	BORDER-LEFT: black 6px solid
+}
+.barcode .space0 {
+	MARGIN-RIGHT: 0px
+}
+.barcode .space1 {
+	MARGIN-RIGHT: 1.5px
+}
+.barcode .space2 {
+	MARGIN-RIGHT: 3px
+}
+.barcode .space3 {
+	MARGIN-RIGHT: 4.5px
+}
+.barcode .space4 {
+	MARGIN-RIGHT: 6px
+}
+.barcode LABEL {
+	TEXT-ALIGN: center; DISPLAY: block; FONT: 0.13in/100% helvetica; CLEAR: both
+}
+
+
+.barcode2 {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; FLOAT: left; HEIGHT: 1in; CLEAR: both; PADDING-TOP: 0px
+}
+.barcode2 + * {
+	CLEAR: both
+}
+.barcode2 DIV {
+	FLOAT: left; HEIGHT: 0.5in
+}
+.barcode2 .bar1 {
+	BORDER-LEFT: black 2px solid
+}
+.barcode2 .bar2 {
+	BORDER-LEFT: black 4px solid
+}
+.barcode2 .bar3 {
+	BORDER-LEFT: black 6px solid
+}
+.barcode2 .bar4 {
+	BORDER-LEFT: black 8px solid
+}
+.barcode2 .space0 {
+	MARGIN-RIGHT: 0px
+}
+.barcode2 .space1 {
+	MARGIN-RIGHT: 2px
+}
+.barcode2 .space2 {
+	MARGIN-RIGHT: 4px
+}
+.barcode2 .space3 {
+	MARGIN-RIGHT: 6px
+}
+.barcode2 .space4 {
+	MARGIN-RIGHT: 8px
+}
+.barcode2 LABEL {
+	TEXT-ALIGN: center; DISPLAY: block; FONT: 0.25in/100% helvetica; CLEAR: both
+}

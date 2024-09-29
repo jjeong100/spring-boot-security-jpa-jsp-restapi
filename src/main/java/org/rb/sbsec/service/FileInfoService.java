@@ -44,7 +44,9 @@ import java.util.List;
 import org.rb.sbsec.exception.BadResourceException;
 import org.rb.sbsec.exception.ResourceAlreadyExistsException;
 import org.rb.sbsec.exception.ResourceNotFoundException;
+import org.rb.sbsec.model.FileComment;
 import org.rb.sbsec.model.FileInfo;
+import org.rb.sbsec.repository.FileCommentRepository;
 import org.rb.sbsec.repository.FileInfoRepository;
 import org.rb.sbsec.specification.FileInfoSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,9 @@ public class FileInfoService {
     
     @Autowired
     private FileInfoRepository fileInfoRepository;
+    
+    @Autowired
+    private FileCommentRepository fileCommentRepository;
     
     /**
      * 
@@ -177,5 +182,28 @@ public class FileInfoService {
      */
     public Long count() {
         return fileInfoRepository.count();
+    }
+    
+    /**
+     * 
+     * @param fileInfo
+     * @return
+     * @throws BadResourceException
+     * @throws ResourceAlreadyExistsException
+     */
+    public FileComment save(FileComment fileComment) throws BadResourceException, ResourceAlreadyExistsException {
+        System.out.println("FileComment Save!.");
+    	if (!StringUtils.isEmpty(fileComment.getFileId())) {
+            if (fileComment.getId() != null && existsById(fileComment.getId())) { 
+                throw new ResourceAlreadyExistsException("Contact with id: " + fileComment.getId() +
+                        " already exists");
+            }
+            return fileCommentRepository.save(fileComment);
+        }
+        else {
+            BadResourceException exc = new BadResourceException("Failed to save contact");
+            exc.addErrorMessage("FileInfo is null or empty");
+            throw exc;
+        }
     }
 }

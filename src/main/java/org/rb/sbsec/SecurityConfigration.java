@@ -67,4 +67,9 @@ public class SecurityConfigration {
     	return new BCryptPasswordEncoder();
     }
     
+//    @Override
+//    public void customize(TomcatServletWebServerFactory factory) {
+//        factory.addConnectorCustomizers(connector -> connector.setProperty("relaxedQueryChars", "<>[\\]^`{|}"));
+//    }
+    
 }

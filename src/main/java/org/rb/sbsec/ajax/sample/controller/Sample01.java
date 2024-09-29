@@ -27,7 +27,7 @@ public class Sample01 {
 	Stream<Integer> mappedStream = stream05.map(str -> str.length());
 	
 	//3.flatMap
-	//각요소애대해 매핑 함수적요 새로운 Stream
+	//각요소애대해 매핑 함수적용 새로운 Stream
 	Stream<List<Integer>> stream06 = Stream.of(Arrays.asList(1,2), Arrays.asList(3,4));
 	Stream<Integer> flatMappedSteam = stream06.flatMap(list->list.stream());
 			

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.rb.sbsec.model.FileComment;
 import org.rb.sbsec.model.FileInfo;
 import org.rb.sbsec.service.FileInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,20 @@ public class FileInfoLogicService {
 		return result;
 	}
 	
+//	/**
+//	 * 파일 정보 저장
+//	 * @return
+//	 */
+//	public List<FileComment> insertComment()  throws Exception {
+//		List<FileComment> result = getFileInfoList();
+//		for(int index=0;index<result.size();index++) {
+//			fileInfoService.save(result.get(index));
+//		}		
+//		return result;
+//	}
+	
+//	public test<T,E,G> get01()
+	
 	 // 재귀함수 
 //    private static void ListFile( String strDirPath ) { 
 //         
@@ -92,3 +107,9 @@ public class FileInfoLogicService {
 //    } 
 
 }
+
+//class test<T,E,G> {
+//	T test01;
+//	E test02;
+//	G test03;
+//}

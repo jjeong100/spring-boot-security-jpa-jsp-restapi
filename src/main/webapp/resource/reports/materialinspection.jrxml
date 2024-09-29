@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.14.0.final using JasperReports Library version 6.14.0-2ab0d8625be255bf609c78e1181801213e51db8f  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="materialinspection" pageWidth="793" pageHeight="1122" columnWidth="743" leftMargin="30" rightMargin="20" topMargin="50" bottomMargin="46" uuid="ee8575aa-ef54-4467-975f-08791c682cda">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="469"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="522"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#FBFDFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="deliveryid" class="java.lang.Integer"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<parameter name="IMAGE_DIR" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT *
+		FROM (
+			SELECT dvpd.id As id
+				, dlvr.id AS deliveryId
+				, dlvr.name AS deliveryName
+				, dlvr.number AS deliveryNumber
+				, dlvr.state AS state
+				, dlvr.createDate AS deliveryDate 
+				, dlvr.supplier_id AS companyId
+				, comp.name AS companyName
+				, prod.id AS productId
+				, prod.name AS productName
+				, prod.description AS productDescription
+				, prod.ean AS productEan
+				, prod.unit As proudctUnit
+				, prod.inspectionfilename AS productImageName
+				, TO_CHAR(dvpd.id, '00000000') AS productLot
+				, dvpd.externalean AS externaLean
+				, dlvr.inspectionCompleted AS inspectionCompleted
+				, dvpd.receiptCompleted AS receiptCompleted
+				, to_char(dvpd.receiptcompleteddate, 'YYYY-MM-DD') as receiptCompleteddate
+				, comp.ceo AS ceo
+				, dvpd.deliveredquantity AS deliveredquantity
+				, dvpd.damagedquantity AS damagedquantity
+				, dlvr.description AS description			
+			FROM deliveries_deliveredproduct dvpd
+				INNER JOIN deliveries_delivery dlvr
+					ON dlvr.id = dvpd.delivery_id
+				INNER JOIN basic_product prod
+					ON prod.id = dvpd.product_id
+				INNER JOIN basic_company comp
+					ON comp.id = dlvr.supplier_id		
+		) a
+		WHERE (state = '05approved' OR state = '06received')
+		and a.deliveryId=$P{deliveryid}]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_deliveredproduct"/>
+	</field>
+	<field name="deliveryid" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="deliveryid"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_delivery"/>
+	</field>
+	<field name="deliveryname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="deliveryname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_delivery"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="deliverynumber" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="deliverynumber"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_delivery"/>
+	</field>
+	<field name="state" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="state"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_delivery"/>
+	</field>
+	<field name="deliverydate" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="deliverydate"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_delivery"/>
+	</field>
+	<field name="companyid" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="companyid"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_delivery"/>
+	</field>
+	<field name="companyname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="companyname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="basic_company"/>
+	</field>
+	<field name="productid" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="productid"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="basic_product"/>
+	</field>
+	<field name="productname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="productname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="basic_product"/>
+	</field>
+	<field name="productdescription" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="productdescription"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="basic_product"/>
+	</field>
+	<field name="productean" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="productean"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="basic_product"/>
+	</field>
+	<field name="proudctunit" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="proudctunit"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="basic_product"/>
+	</field>
+	<field name="productimagename" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="productimagename"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="basic_product"/>
+	</field>
+	<field name="productlot" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="productlot"/>
+	</field>
+	<field name="externalean" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="externalean"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_deliveredproduct"/>
+	</field>
+	<field name="inspectioncompleted" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="inspectioncompleted"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_delivery"/>
+	</field>
+	<field name="receiptcompleted" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="receiptcompleted"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_deliveredproduct"/>
+	</field>
+	<field name="receiptcompleteddate" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="receiptcompleteddate"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_deliveredproduct"/>
+	</field>
+	<field name="ceo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ceo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="basic_company"/>
+	</field>
+	<field name="deliveredquantity" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="deliveredquantity"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_deliveredproduct"/>
+	</field>
+	<field name="damagedquantity" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="damagedquantity"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_deliveredproduct"/>
+	</field>
+	<field name="description" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="description"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="deliveries_delivery"/>
+	</field>
+	<variable name="companyname1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{companyname}]]></variableExpression>
+	</variable>
+	<columnHeader>
+		<band height="361">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement x="0" y="81" width="80" height="280" uuid="493f92a2-58da-455f-bcb8-452fa19f843b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="80" height="40" uuid="6064ba62-2bf0-4dbd-8b49-b5147ee61c1b">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[품      번]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="120" width="80" height="40" uuid="a7e05162-ddbf-43ef-beaa-fe572056d1de">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[LOT No.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="160" width="80" height="40" uuid="ea87a7b0-7952-4dbe-a457-57cb1f97a05d">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[입고 수량]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="200" width="80" height="40" uuid="f726153f-c8a7-4543-889e-033c84d0f40b">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[불량 수량]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="240" width="80" height="40" uuid="5ab23240-f3e0-4e37-b27c-93a80fd3d5e9">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[입고 일자]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="80" width="80" height="40" uuid="38065edf-fe7a-49ed-b1f6-a6361e1b597e">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[입 고 처]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="40" width="80" height="40" uuid="fd2e38c3-eefe-4160-a027-0192ca398965">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[품      명]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement x="80" y="81" width="160" height="280" uuid="e77a0606-97ee-4066-9c15-c3bdda6e9f7e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textField>
+					<reportElement x="0" y="0" width="160" height="40" uuid="7d97199e-737b-4967-95de-7172eb4bc5c8">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{productean}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="40" width="160" height="40" uuid="5322d8e0-fa15-41e5-968c-10575d8a958e">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{productname}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="80" width="160" height="40" uuid="1793c514-34a3-4f8e-88ef-3c75ca99536f">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{companyname}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="120" width="160" height="40" uuid="20f0aac4-6def-4d95-9b10-17099096c697">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{externalean}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="160" width="160" height="40" uuid="44304958-40e7-4c92-b3f1-70a87ab79434">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{deliveredquantity}.intValue()+$F{proudctunit}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="200" width="160" height="40" uuid="c8ba6ea3-8f81-459d-a90c-577138c0a0be">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{damagedquantity}.intValue()+$F{proudctunit}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="240" width="160" height="40" uuid="2165d4f5-4f11-4061-957e-7a84d35d9997">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{receiptcompleteddate}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+				<reportElement x="240" y="81" width="480" height="280" uuid="00d31ec5-e04d-4aa1-b456-de3c141569b4">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<imageExpression><![CDATA[$P{IMAGE_DIR}+$F{productimagename}]]></imageExpression>
+			</image>
+			<frame>
+				<reportElement x="0" y="0" width="720" height="81" uuid="ab49095f-2dde-40d4-93ca-c45a319392bc"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="516" height="81" uuid="87cd2f0e-50b7-4e98-9749-cc30bdd0c128">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="35" isBold="true"/>
+					</textElement>
+					<text><![CDATA[수입 검사 성적서]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="516" y="0" width="21" height="81" uuid="68656c2e-3219-453c-8a54-b071fcce47bb"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[결
+재]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="537" y="0" width="61" height="20" uuid="02e82a6e-bf59-4b94-84ef-3c8338c33755"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[작 성]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="598" y="0" width="61" height="20" uuid="362a20ba-bf23-424d-aac1-41f0cea67f6f"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[검 토]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="659" y="0" width="61" height="20" uuid="30890112-41c3-409d-a394-6e2c1eb3950f"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="NanumGothic" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[승 인]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="537" y="20" width="61" height="61" uuid="42d820f9-6f89-44a5-abc4-94e1dcd39897">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="598" y="20" width="61" height="61" uuid="d04fdee2-4336-42ce-9df9-81f5bc1a02e8">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<text><![CDATA[]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="540">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.layout"/>
+			<staticText>
+				<reportElement x="0" y="0" width="30" height="60" uuid="41fb01b7-c505-4f4f-897f-cad4755cfa59">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="0" width="50" height="60" uuid="429580b4-b171-4be7-875c-9aa7f1b04472">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[검사항목]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="0" width="160" height="60" uuid="d8b0e582-f162-48b0-aaf3-da301852ff6d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[규 격]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="0" width="450" height="30" uuid="3085c6f0-73f9-40b1-92af-40159b5f0c8d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[측 정 D A T A]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="690" y="0" width="30" height="60" uuid="789bb33f-987f-4db6-93f8-ac13f2e3eb3d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[비고]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="30" width="75" height="30" uuid="b4046c89-bb9f-46f8-983b-822abc172d77">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[X1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="315" y="30" width="75" height="30" uuid="2ee7915b-243f-4201-b977-633cd0e13cfe">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[X2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="30" width="75" height="30" uuid="2c91f5be-4d80-42d4-859d-a13269bf2e8c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[X3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="465" y="30" width="75" height="30" uuid="7583726f-dcf9-45bc-a81c-c36fe1fb83c3">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[X4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="540" y="30" width="75" height="30" uuid="049f2693-e707-49ec-8c14-f26a41b1d7f0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[X5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="615" y="30" width="75" height="30" uuid="fa465c6e-1bdc-431a-a243-7a9a1076f00e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[X6]]></text>
+			</staticText>
+			<subreport overflowType="NoStretch">
+				<reportElement x="0" y="60" width="720" height="480" uuid="98582391-e9e8-4fcc-a692-51a0b5a607e0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="subdeliveryid">
+					<subreportParameterExpression><![CDATA[$P{deliveryid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}+"/materialsub.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="60" width="720" height="480" uuid="3c7af4b8-bdf2-4f75-8d51-a00c17e4f86b"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}+"/materialsubbase.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="125" splitType="Prevent">
+			<staticText>
+				<reportElement x="500" y="0" width="20" height="89" uuid="f1edf51f-c4ab-4688-9ab5-a87c36b1e38c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[신흥테크]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="540" y="0" width="60" height="20" uuid="4e75c45b-60c6-49dc-98ed-00756aee3356">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[작 성]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="600" y="0" width="60" height="20" uuid="4f928cf6-e36d-4cda-bbdb-f9dbb554402d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[검 토]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="500" height="89" uuid="8e49c509-eb80-4a6d-8bef-fb126117fa23">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="NanumGothic" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  ※ 특기 사항 :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="660" y="0" width="60" height="20" uuid="087f26ae-56d8-4bc2-a4f0-87a7cb6ffcc0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[승 인]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="520" y="0" width="20" height="89" uuid="6bd068b6-b94e-445b-9f75-9b7be4de502e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[결재]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="540" y="20" width="60" height="69" uuid="2b6074fe-1dab-414c-82fb-c725bb27c319">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="NanumGothic" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="600" y="20" width="60" height="69" uuid="d81b3e4b-a17a-4f6e-87df-bda4f5340197">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="NanumGothic" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="660" y="20" width="60" height="69" uuid="dccf930f-0af0-4e6f-8167-e4c7c0ed4a67">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="NanumGothic" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="303" y="89" width="100" height="30" uuid="eb838314-d2bb-4edf-baa6-7949055cd514"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="NanumGothic" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[(주) 신흥테크]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+</jasperReport>

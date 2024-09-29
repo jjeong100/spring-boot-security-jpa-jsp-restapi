@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>My Data Adapter</name><driver>org.postgresql.Driver</driver><username>rntime</username><password>rntime8630</password><savePassword>true</savePassword><url>jdbc:postgresql://59.12.52.175:5432/NEW_MES</url><database></database><serverAddress></serverAddress></jdbcDataAdapter>
