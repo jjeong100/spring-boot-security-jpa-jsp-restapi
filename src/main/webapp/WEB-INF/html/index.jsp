@@ -446,7 +446,7 @@
 	            var errCode = saveData.split("|");
 	            var hRow = mySheet.getHeaderRows();
 	            var colTitle = mySheet.getString(hRow[hRow.length - 1] , errCode[3]);
-	            alert(`${colTitle}열은 필수 입력컬럼 입니다.`);
+	            alert("${colTitle}열은 필수 입력컬럼 입니다.");
 	            mySheet.focus(mySheet.getRowById(errCode[2]),errCode[3] );
 	            return;
 	        }
