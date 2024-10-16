@@ -200,7 +200,8 @@
                 //각 열에 대한 정의 (열의 이름, 유형(Type), 포맷(Format)등을 설정)
                 //열의 "Type"과 "Name" 속성은 반드시 설정되어야 합니다.
                 Cols:[
-                      {Header: "아이디",  Name: "id",           Type: "Text"}
+                	{Header: "체크",  Name: "chk",           Type: "Bool"}
+                    , {Header: "아이디",  Name: "id",           Type: "Text"}
                     , {Header: "파일이름", Name: "fileName",    Type: "Text"}
                     , {Header: "확장자",  Name: "fileExt",     Type: "Text"}
                     , {Header: "사이즈",  Name: "fileSize",    Type: "Text"}
@@ -412,12 +413,55 @@
         }
     }
     
+    /*
+    **
+    */
+    function delData() {
+    	var mySheet = IBSheet["sheet"];
+		/// 수정된 데이터가 있는지 판별
+	    if(mySheet.hasChangedData()) {
+	        var saveData = mySheet.getSaveString();
+	        // 필수값 확인
+	        if(saveData.indexOf("RequiredError")==-1){
+	            var addRowCnt = mySheet.getRowsByStatus("Added,!Deleted").length;
+	            // 수정행
+	            var chgRowCnt = mySheet.getRowsByStatus("Changed,!Added,!Deleted").length;
+	            // 삭제행
+	            var delRowCnt = mySheet.getRowsByStatus("Deleted").length;
+// 	            if(confirm("신규 : ${addRowCnt}건\n수정 : ${chgRowCnt}건\n삭제 : ${delRowCnt}건\n을 저장하시겠습니까?")){
+	            if(confirm("신규 : "+addRowCnt+"건\n수정 : "+chgRowCnt+"건\n삭제 : "+delRowCnt+"건\n을 저장하시겠습니까?")){
+// 	                mySheet.ajax({
+// 	                    url : "./save.jsp",
+// 	                    param : saveData,
+// 	                    method : "post",
+// 	                    callback: function(res, data, resXml, response){
+// 	                        // 저장 완료 처리
+// 	                        if( data && JSON.parse(data)?.IO?.Result > -1){
+// 	                            mySheet.acceptChangedData();
+// 	                        }
+// 	                    }
+// 	                });
+	            }
+	        }else{
+	            var errCode = saveData.split("|");
+	            var hRow = mySheet.getHeaderRows();
+	            var colTitle = mySheet.getString(hRow[hRow.length - 1] , errCode[3]);
+	            alert(`${colTitle}열은 필수 입력컬럼 입니다.`);
+	            mySheet.focus(mySheet.getRowById(errCode[2]),errCode[3] );
+	            return;
+	        }
+	    }else{
+	        alert("수정 된 데이터가 없습니다.");
+	    }
+    }
 </Script>
+
 <body onload="initSheet()">
   <div class="btnCls">
      <button type="button" class="mainBtnB" onclick="reqList();">조회</button>
      <button type="button" class="mainBtnB">신규</button>
      <button type="button" class="mainBtnB" onclick="insData();">저장</button>
+     <button type="button" class="mainBtnB" onclick="delData();">삭제</button>
   </div>
   <hr>
   <!-- 시트가 될 DIV 객체 -->

@@ -259,4 +259,11 @@ public class FileInfoController {
 //    	String folder = "D:\\torrent\\";
     	 return ResponseEntity.ok(fileInfoLogicService.insertFileBatch(folder));
     }
+    
+    @PostMapping(value = "/delFileList")
+    public ResponseEntity<List<FileInfo>> delFileList(@RequestParam("folder") String folder) throws Exception {
+    	System.out.println("delFileList folder : "+folder);
+//    	String folder = "D:\\torrent\\";
+    	 return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
