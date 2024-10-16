@@ -42,6 +42,8 @@ public class FileInfo implements Serializable {
 	private String actionYn;
 	private Timestamp updateDt;
 	
+	private String type = "F";
+	
 //	private String 
 	
 //	@ManyToOne

@@ -38,10 +38,12 @@
  */
 package org.rb.sbsec.repository;
 
+import java.util.List;
+
 import org.rb.sbsec.model.FileInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface FileInfoRepository extends JpaRepository<FileInfo, Long>,JpaSpecificationExecutor<FileInfo> {
-	
+	public List<FileInfo> findByType(String type);
 }

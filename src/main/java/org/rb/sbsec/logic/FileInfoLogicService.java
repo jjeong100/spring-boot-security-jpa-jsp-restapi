@@ -68,6 +68,33 @@ public class FileInfoLogicService {
 	}
 	
 	/**
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<FileInfo> getList(int pageno, int pagesize) throws Exception {
+		return fileInfoService.findAll(pageno,pagesize);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<FileInfo> getFileInfoList() throws Exception {
+		return fileInfoService.findAll();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<FileInfo> getFileInfoTypeList(String type) throws Exception {
+		return fileInfoService.findByType(type);
+	}
+	
+	/**
 	 * 파일 정보 저장
 	 * @return
 	 */
@@ -87,6 +114,7 @@ public class FileInfoLogicService {
 			fileInfoService.batchInsert(result);
 		return result;
 	}
+	
 	
 //	/**
 //	 * 파일 정보 저장

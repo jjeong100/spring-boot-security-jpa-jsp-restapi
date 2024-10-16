@@ -223,8 +223,8 @@ public class FileInfoController {
      * @return
      */
     @GetMapping(value = "/readFileList")
-    public ResponseEntity<List<FileInfo>> readFileList(@RequestParam("pageno") String pageno
-    		                                          , @RequestParam("pagesize") String pagesize
+    public ResponseEntity<List<FileInfo>> readFileList(@RequestParam("pageno") int pageno
+    		                                          , @RequestParam("pagesize") int pagesize
     		                                          , @RequestParam("folder") String folder) throws Exception {
 //    	fileInfoLogicService.getFileInfoList();
 //    	 return ResponseEntity.ok().build();
@@ -235,7 +235,11 @@ public class FileInfoController {
     	System.out.println("folder : "+folder);
     	
 //    	String folder = "D:\\torrent\\";
-    	 return ResponseEntity.ok(fileInfoLogicService.getFileInfoList(folder));
+//    	return ResponseEntity.ok(fileInfoLogicService.getFileInfoList(folder));
+//    	return ResponseEntity.ok(fileInfoLogicService.getFileInfoList());
+//    	return ResponseEntity.ok(fileInfoLogicService.getFileInfoTypeList("F"));
+    	return ResponseEntity.ok(fileInfoLogicService.getList(pageno,pagesize));
+    	
     }
     
     /**

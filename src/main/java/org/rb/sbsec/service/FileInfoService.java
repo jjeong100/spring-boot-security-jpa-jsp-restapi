@@ -103,6 +103,14 @@ public class FileInfoService {
         return fileInfo;
     }
     
+    public List<FileInfo> findAll() {
+        return fileInfoRepository.findAll();
+    }
+    
+    public List<FileInfo> findByType(String type) {
+        return fileInfoRepository.findByType(type);
+    }
+    
     public List<FileInfo> findAllByFileName(String name, int pageNumber, int rowPerPage) {
         FileInfo filter = new FileInfo();
         filter.setFileName(name);

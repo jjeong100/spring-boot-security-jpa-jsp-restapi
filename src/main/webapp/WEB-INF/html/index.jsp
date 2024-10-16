@@ -27,7 +27,7 @@
             //메소드 타입 지정
             type : "GET",
             //요청 시 서버로 전달할 데이터 지정
-            data : { pageno : 1, pagesize : 5 , folder : "D:\\torrent\\"},
+            data : { pageno : 1, pagesize : 40 , folder : "D:\\torrent\\"},
             //요청 전송 전에 실행될 콜백 함수 지정
             beforeSend : function(xhr, settings) {
                 console.log("before Send");
@@ -161,38 +161,38 @@
 //                       evtParam.sheet.doSearch(param);
 //                     }
 //                   },
-//                   onBeforeDataLoad:function (evtParam) {
-//                     // 조회 후 로딩 전 발생 이벤트
-//                     var d = evtParam.data;
-//                     var _data;
+                  onBeforeDataLoad:function (evtParam) {
+                    // 조회 후 로딩 전 발생 이벤트
+                    var d = evtParam.data;
+                    var _data;
 
-//                     console.log("evtParam d:"+d);
-//                     try {
-//                       // 서버에서 가져온 데이터를 "데이터" 텝에 넣어준다.
-//                       if (d.length > 20) { // 최대 20개 행만 텝에 넣어 주자(많아지면 화면이 엄청 느려질 수 있음)
-//                         _data = JSON.stringify(d.slice(0, 20), null, 2);
-//                         _data += _data.substring(0, _data.length - 1) + '...\n]';
-//                       } else {
-//                         _data = JSON.stringify(d, null, 2);
-//                       }
+                    console.log("evtParam d:"+d);
+                    try {
+                      // 서버에서 가져온 데이터를 "데이터" 텝에 넣어준다.
+                      if (d.length > 20) { // 최대 20개 행만 텝에 넣어 주자(많아지면 화면이 엄청 느려질 수 있음)
+                        _data = JSON.stringify(d.slice(0, 20), null, 2);
+                        _data += _data.substring(0, _data.length - 1) + '...\n]';
+                      } else {
+                        _data = JSON.stringify(d, null, 2);
+                      }
                       
-//                       console.log("_data : "+_data);
-//                       myTabs.contents.items(1).setContents('<pre><code class=\'language-json\'>' + _data + '</code></pre>');
-//                       hljs.initHighlighting.called = false;
-//                       hljs.initHighlighting();
-//                     } catch (e) {
-//                       console.log('IBTab 이 존재하지 않습니다.');
-//                       console.log(e);
-//                     }
-//                   },
-//                   onAfterGotoPage:function (evtParam) {
-//                     var sheet = evtParam.sheet;
-//                     var page = sheet.getPageIndex(sheet.getFocusedPage()) + 1;
+                      console.log("_data : "+_data);
+                      myTabs.contents.items(1).setContents('<pre><code class=\'language-json\'>' + _data + '</code></pre>');
+                      hljs.initHighlighting.called = false;
+                      hljs.initHighlighting();
+                    } catch (e) {
+                      console.log('IBTab 이 존재하지 않습니다.');
+                      console.log(e);
+                    }
+                  },
+                  onAfterGotoPage:function (evtParam) {
+                    var sheet = evtParam.sheet;
+                    var page = sheet.getPageIndex(sheet.getFocusedPage()) + 1;
 
-//                     if (document.getElementById('chk1').checked && currentPage != -1 && currentPage != page) {
-//                       samplePageObj.externalFunction.makePageIndex(page);
-//                     }
-//                   }
+                    if (document.getElementById('chk1').checked && currentPage != -1 && currentPage != page) {
+                      samplePageObj.externalFunction.makePageIndex(page);
+                    }
+                  }
              },
               "LeftCols": [
                 {"Type": "Int","Width": 50,"Align": "Center","Name": "SEQ"}
@@ -213,7 +213,8 @@
                 ]
             };
 //         //초기 데이터 설정
-        var DATA = [{"id": "a","fileName": "01", "fileExt":"테스트"}];
+//         var DATA = [{"id": "a","fileName": "01", "fileExt":"테스트"}];
+ var DATA = [];
 
         IBSheet.create({
             id: "sheet",        // 시트 객체 ID
@@ -404,12 +405,13 @@
         }
 
     var addEventHandler = function (obj, evtName, func, param) {
-          if (obj.addEventListener) { // all browsers except IE before version 9
-            obj.addEventListener(evtName, function () { func(param); }, false);
-          } else if (obj.attachEvent) { // IE before version 9
-            obj.attachEvent('on' + evtName, function () { func(param); });
-          }
+        if (obj.addEventListener) { // all browsers except IE before version 9
+           obj.addEventListener(evtName, function () { func(param); }, false);
+        } else if (obj.attachEvent) { // IE before version 9
+           obj.attachEvent('on' + evtName, function () { func(param); });
         }
+    }
+    
 </Script>
 <body onload="initSheet()">
   <div class="btnCls">
@@ -420,6 +422,8 @@
   <hr>
   <!-- 시트가 될 DIV 객체 -->
   <div id="sheetDiv" style="width:100%; height:500px;"></div>
+<!--   <div id='ib-tab'></div> -->
+<!-- <div id='ib-contents'></div> -->
 <!--   <div id="resp">11111</div> -->
 </body>
 </html>
