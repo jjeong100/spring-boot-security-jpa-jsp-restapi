@@ -52,4 +52,11 @@ public class AjaxController {
             model.addAttribute("msg",result);
         return "ajax";
     }
+    
+    @GetMapping("/sample")
+    public String sample(Model model){
+    	System.out.println("Sample!");
+    	model.addAttribute("msg","test**");
+        return "sample06";
+    }
 }

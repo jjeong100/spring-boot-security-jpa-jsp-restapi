@@ -40,13 +40,13 @@ public class FileComment implements Serializable {
 	private String fileType;
 	private Timestamp createDt;
 	
-	@OneToMany(mappedBy = "fileComment")
-	private Set<FileInfo> fileInfo = new HashSet<>();
+//	@OneToMany(mappedBy = "fileComment")
+//	private Set<FileInfo> fileInfo = new HashSet<>();
 	
-	public void add(FileInfo fileInfo) {
-		fileInfo.setFileComment(this);
-		getFileInfo().add(fileInfo);
-	}
+//	public void add(FileInfo fileInfo) {
+//		fileInfo.setFileComment(this);
+//		getFileInfo().add(fileInfo);
+//	}
 	
 
 }

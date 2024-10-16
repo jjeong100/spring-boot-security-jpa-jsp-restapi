@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 //@RestController
-@RequestMapping("/sample")
+@RequestMapping("/sample1")
 public class SampleController {
 
 	@Autowired

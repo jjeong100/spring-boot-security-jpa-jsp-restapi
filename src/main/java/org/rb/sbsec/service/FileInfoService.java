@@ -47,6 +47,7 @@ import org.rb.sbsec.exception.ResourceNotFoundException;
 import org.rb.sbsec.model.FileComment;
 import org.rb.sbsec.model.FileInfo;
 import org.rb.sbsec.repository.FileCommentRepository;
+import org.rb.sbsec.repository.FileInfoBatchRepository;
 import org.rb.sbsec.repository.FileInfoRepository;
 import org.rb.sbsec.specification.FileInfoSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,9 @@ public class FileInfoService {
     
     @Autowired
     private FileCommentRepository fileCommentRepository;
+    
+    @Autowired
+    private FileInfoBatchRepository fileInfoBatchRepository;
     
     /**
      * 
@@ -205,5 +209,13 @@ public class FileInfoService {
             exc.addErrorMessage("FileInfo is null or empty");
             throw exc;
         }
+    }
+    
+    /**
+     * 
+     * @param fileInfoList
+     */
+    public void batchInsert(List<FileInfo> fileInfoList) {
+    	fileInfoBatchRepository.batchInsert(fileInfoList);
     }
 }

@@ -67,8 +67,8 @@ public class UserController {
     	return "redirect:/welcome";
     }
 
-    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
-    public String welcome(Model model) {
-        return "welcome";
-    }
+//    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
+//    public String welcome(Model model) {
+//        return "welcome";
+//    }
 }

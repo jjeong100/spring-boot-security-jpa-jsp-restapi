@@ -49,6 +49,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -222,18 +223,36 @@ public class FileInfoController {
      * @return
      */
     @GetMapping(value = "/readFileList")
-    public ResponseEntity<List<FileInfo>> readFileList() throws Exception {
+    public ResponseEntity<List<FileInfo>> readFileList(@RequestParam("pageno") String pageno
+    		                                          , @RequestParam("pagesize") String pagesize
+    		                                          , @RequestParam("folder") String folder) throws Exception {
 //    	fileInfoLogicService.getFileInfoList();
 //    	 return ResponseEntity.ok().build();
-    	 return ResponseEntity.ok(fileInfoLogicService.getFileInfoList());
+//    	System.out.println("data : "+data);
+//    	System.out.println("total : "+total);
+    	System.out.println("pageno : "+pageno);
+    	System.out.println("pagesize : "+pagesize);
+    	System.out.println("folder : "+folder);
+    	
+//    	String folder = "D:\\torrent\\";
+    	 return ResponseEntity.ok(fileInfoLogicService.getFileInfoList(folder));
     }
     
     /**
      * http://localhost:8080/file/inserFileList
      * @return
      */
-    @GetMapping(value = "/insertFileList")
-    public ResponseEntity<List<FileInfo>> insertFileList() throws Exception {
-    	 return ResponseEntity.ok(fileInfoLogicService.insertfile());
+    @PostMapping(value = "/insertFileList")
+    public ResponseEntity<List<FileInfo>> insertFileList(@RequestParam("folder") String folder) throws Exception {
+    	System.out.println("insertFileList folder : "+folder);
+//    	String folder = "D:\\torrent\\";
+    	 return ResponseEntity.ok(fileInfoLogicService.insertfile(folder));
+    }
+    
+    @PostMapping(value = "/insertFileBatch")
+    public ResponseEntity<List<FileInfo>> insertFileBatch(@RequestParam("folder") String folder) throws Exception {
+    	System.out.println("insertFileBatch folder : "+folder);
+//    	String folder = "D:\\torrent\\";
+    	 return ResponseEntity.ok(fileInfoLogicService.insertFileBatch(folder));
     }
 }

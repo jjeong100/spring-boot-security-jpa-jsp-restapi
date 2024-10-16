@@ -25,39 +25,43 @@ public class FileInfoLogicService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<FileInfo> getFileInfoList() throws Exception {
+	public List<FileInfo> getFileInfoList(String folder) throws Exception {
 //		List<FileInfo> list = fileInfoService.findAll(0, 100);
 //		for(int index=0;index<list.size();index++) {
 //			FileInfo fileInfo = list.get(index);
 //			System.out.println(fileInfo.getFileName());
 //		}
-		
-		String _path = "D:\\sample\\"; 
-        
-//        ListFile( strDirPath ); 
-		
-		Path dirPath = Paths.get(_path);
-		Stream<Path> walk = Files.walk(dirPath);
-		 
-		List<Path> list =  walk.filter(Files::isRegularFile)
-//		                .filter(p -> p.getFileName().toString().equalsIgnoreCase(_name))
-		                .collect(Collectors.toList());
-		
 		List<FileInfo> result = new ArrayList<FileInfo>();
-		for(int index=0;index<list.size();index++) {
-			Path path = list.get(index);
-			FileInfo info = new FileInfo();
-			info.setFileName(path.getFileName().toString());
-			info.setDirectory(path.getParent().toString());
-			info.setFileExt(info.getFileName().substring(info.getFileName().lastIndexOf(".") + 1));
-			info.setFileSize((Long)Files.size(path));
-			info.setFileType("M");
-			info.setDelYn("N");
-			info.setActionYn("N");
-			result.add(info);
-		}
-		for(FileInfo Info:result) {
-			System.out.println(Info.getFileName());
+		
+		try {
+			String _path = folder;//"D:\\sample\\"; 
+	        
+	//        ListFile( strDirPath ); 
+			
+			Path dirPath = Paths.get(_path);
+			Stream<Path> walk = Files.walk(dirPath);
+			 
+			List<Path> list =  walk.filter(Files::isRegularFile)
+	//		                .filter(p -> p.getFileName().toString().equalsIgnoreCase(_name))
+			                .collect(Collectors.toList());
+			
+			for(int index=0;index<list.size();index++) {
+				Path path = list.get(index);
+				FileInfo info = new FileInfo();
+				info.setFileName(path.getFileName().toString());
+				info.setDirectory(path.getParent().toString());
+				info.setFileExt(info.getFileName().substring(info.getFileName().lastIndexOf(".") + 1));
+				info.setFileSize((Long)Files.size(path));
+				info.setFileType("M");
+				info.setDelYn("N");
+				info.setActionYn("N");
+				result.add(info);
+			}
+//			for(FileInfo Info:result) {
+//				System.out.println(Info.getFileName());
+//			}
+		}catch(java.nio.file.AccessDeniedException e) {
+			
 		}
 		
 		return result;
@@ -67,11 +71,20 @@ public class FileInfoLogicService {
 	 * 파일 정보 저장
 	 * @return
 	 */
-	public List<FileInfo> insertfile()  throws Exception {
-		List<FileInfo> result = getFileInfoList();
+	public List<FileInfo> insertfile(String folder)  throws Exception {
+		List<FileInfo> result = getFileInfoList(folder);
 		for(int index=0;index<result.size();index++) {
 			fileInfoService.save(result.get(index));
 		}		
+		return result;
+	}
+	
+	/**
+	 * 파일 저장 
+	 */
+	public List<FileInfo> insertFileBatch(String folder)  throws Exception {
+		List<FileInfo> result = getFileInfoList(folder);
+			fileInfoService.batchInsert(result);
 		return result;
 	}
 	

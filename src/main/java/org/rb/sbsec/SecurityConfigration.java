@@ -1,8 +1,11 @@
 package org.rb.sbsec;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.CacheControl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,10 +13,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfigration {
+public class SecurityConfigration {//implements WebMvcConfigurer{
 	
 	@Autowired
     private UserDetailsService userDetailsService;
@@ -72,4 +77,10 @@ public class SecurityConfigration {
 //        factory.addConnectorCustomizers(connector -> connector.setProperty("relaxedQueryChars", "<>[\\]^`{|}"));
 //    }
     
+//    @Override
+//    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+//    	registry.addResourceHandler("/**")
+//    	.addResourceLocations("classpath:/WEB-INF/")
+//    	.setCacheControl(CacheControl.maxAge(10,TimeUnit.MINUTES));
+//    }
 }

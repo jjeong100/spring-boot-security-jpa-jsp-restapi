@@ -37,7 +37,7 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
-            <scope>provided</scope>
+<!--            <scope>provided</scope>-->
         </dependency>
         <!-- JSTL suppport -->
 <!--        <dependency> 3.x는 적용안됨 jakarta.servlet 사용  -->
