@@ -459,7 +459,7 @@
 <body onload="initSheet()">
   <div class="btnCls">
      <button type="button" class="mainBtnB" onclick="reqList();">조회</button>
-     <button type="button" class="mainBtnB">신규</button>
+     <button type="button" class="mainBtnB" onclick="sampleBtn();">신규</button>
      <button type="button" class="mainBtnB" onclick="insData();">저장</button>
      <button type="button" class="mainBtnB" onclick="delData();">삭제</button>
   </div>
@@ -469,5 +469,7 @@
 <!--   <div id='ib-tab'></div> -->
 <!-- <div id='ib-contents'></div> -->
 <!--   <div id="resp">11111</div> -->
+<div id="pageNavi"></div> 
+
 </body>
 </html>
