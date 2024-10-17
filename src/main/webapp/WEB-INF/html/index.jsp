@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" 
-    pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <!-- ibsheet css -->
 <link rel="stylesheet" href="https://demo.ibsheet.com/ibsheet/v8/samples/customer-sample/assets/ibsheet/css/default/main.css"/>
@@ -94,16 +93,18 @@
         var OPT = {
              //틀고정 좌측 컬럼 설정
              Cfg:{
-             Menu: {
-                    Items: [
-                        { Name: "title", Text: "바로가기", Value:"0" },
-                        { Name: "title1", Text: "바로가기1", Value:"1" },
-                        { Name: "title2", Text: "바로가기2", Value:"2" },
-                        { Name: "title3", Text: "바로가기3", Value:"3" },
-                        { Name: "title4", Text: "바로가기4", Value:"4" }
-                    ]
-                }
-             },Events:{
+            	 SearchMode:1
+//              Menu: {
+//                     Items: [
+//                         { Name: "title", Text: "바로가기", Value:"0" },
+//                         { Name: "title1", Text: "바로가기1", Value:"1" },
+//                         { Name: "title2", Text: "바로가기2", Value:"2" },
+//                         { Name: "title3", Text: "바로가기3", Value:"3" },
+//                         { Name: "title4", Text: "바로가기4", Value:"4" }
+//                     ]
+//                 }
+             }
+        , Events:{
                 onSelectMenu:function(evtParam){
                     // 메뉴에서 선택된 값으로 셀 값을 변경하기
                     //evtParam.sheet.setValue({row: evtParam.row, col: evtParam.col, val: evtParam.result, render: 1});
@@ -161,38 +162,38 @@
 //                       evtParam.sheet.doSearch(param);
 //                     }
 //                   },
-                  onBeforeDataLoad:function (evtParam) {
-                    // 조회 후 로딩 전 발생 이벤트
-                    var d = evtParam.data;
-                    var _data;
+//                   onBeforeDataLoad:function (evtParam) {
+//                     // 조회 후 로딩 전 발생 이벤트
+//                     var d = evtParam.data;
+//                     var _data;
 
-                    console.log("evtParam d:"+d);
-                    try {
-                      // 서버에서 가져온 데이터를 "데이터" 텝에 넣어준다.
-                      if (d.length > 20) { // 최대 20개 행만 텝에 넣어 주자(많아지면 화면이 엄청 느려질 수 있음)
-                        _data = JSON.stringify(d.slice(0, 20), null, 2);
-                        _data += _data.substring(0, _data.length - 1) + '...\n]';
-                      } else {
-                        _data = JSON.stringify(d, null, 2);
-                      }
+//                     console.log("evtParam d:"+d);
+//                     try {
+//                       // 서버에서 가져온 데이터를 "데이터" 텝에 넣어준다.
+//                       if (d.length > 20) { // 최대 20개 행만 텝에 넣어 주자(많아지면 화면이 엄청 느려질 수 있음)
+//                         _data = JSON.stringify(d.slice(0, 20), null, 2);
+//                         _data += _data.substring(0, _data.length - 1) + '...\n]';
+//                       } else {
+//                         _data = JSON.stringify(d, null, 2);
+//                       }
                       
-                      console.log("_data : "+_data);
-                      myTabs.contents.items(1).setContents('<pre><code class=\'language-json\'>' + _data + '</code></pre>');
-                      hljs.initHighlighting.called = false;
-                      hljs.initHighlighting();
-                    } catch (e) {
-                      console.log('IBTab 이 존재하지 않습니다.');
-                      console.log(e);
-                    }
-                  },
-                  onAfterGotoPage:function (evtParam) {
-                    var sheet = evtParam.sheet;
-                    var page = sheet.getPageIndex(sheet.getFocusedPage()) + 1;
+//                       console.log("_data : "+_data);
+//                       myTabs.contents.items(1).setContents('<pre><code class=\'language-json\'>' + _data + '</code></pre>');
+//                       hljs.initHighlighting.called = false;
+//                       hljs.initHighlighting();
+//                     } catch (e) {
+//                       console.log('IBTab 이 존재하지 않습니다.');
+//                       console.log(e);
+//                     }
+//                   },
+//                   onAfterGotoPage:function (evtParam) {
+//                     var sheet = evtParam.sheet;
+//                     var page = sheet.getPageIndex(sheet.getFocusedPage()) + 1;
 
-                    if (document.getElementById('chk1').checked && currentPage != -1 && currentPage != page) {
-                      samplePageObj.externalFunction.makePageIndex(page);
-                    }
-                  }
+//                     if (document.getElementById('chk1').checked && currentPage != -1 && currentPage != page) {
+//                       samplePageObj.externalFunction.makePageIndex(page);
+//                     }
+//                   }
              },
               "LeftCols": [
                 {"Type": "Int","Width": 50,"Align": "Center","Name": "SEQ"}
@@ -469,7 +470,7 @@
 <!--   <div id='ib-tab'></div> -->
 <!-- <div id='ib-contents'></div> -->
 <!--   <div id="resp">11111</div> -->
-<div id="pageNavi"></div> 
+<!-- <div id="pageNavi"></div>  -->
 
 </body>
 </html>

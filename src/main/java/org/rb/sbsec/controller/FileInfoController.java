@@ -223,13 +223,9 @@ public class FileInfoController {
      * @return
      */
     @GetMapping(value = "/readFileList")
-    public ResponseEntity<List<FileInfo>> readFileList(@RequestParam("pageno") int pageno
+    public ResponseEntity<List<FileInfo>> readFileList( @RequestParam("pageno") int pageno
     		                                          , @RequestParam("pagesize") int pagesize
     		                                          , @RequestParam("folder") String folder) throws Exception {
-//    	fileInfoLogicService.getFileInfoList();
-//    	 return ResponseEntity.ok().build();
-//    	System.out.println("data : "+data);
-//    	System.out.println("total : "+total);
     	System.out.println("pageno : "+pageno);
     	System.out.println("pagesize : "+pagesize);
     	System.out.println("folder : "+folder);
@@ -239,6 +235,12 @@ public class FileInfoController {
 //    	return ResponseEntity.ok(fileInfoLogicService.getFileInfoList());
 //    	return ResponseEntity.ok(fileInfoLogicService.getFileInfoTypeList("F"));
     	return ResponseEntity.ok(fileInfoLogicService.getList(pageno,pagesize));
+    	
+    }
+    
+    @GetMapping(value = "/readFileList1")
+    public ResponseEntity<List<FileInfo>> readFileList() throws Exception {
+    	return ResponseEntity.ok(fileInfoLogicService.getFileInfoTypeList("F"));
     	
     }
     
