@@ -1,14 +1,15 @@
 package org.rb.sbsec.logic;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.rb.sbsec.model.FileComment;
 import org.rb.sbsec.model.FileInfo;
 import org.rb.sbsec.service.FileInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,39 @@ public class FileInfoLogicService {
 	}
 	
 	/**
+	 * 파일 정보 조회
+	 * @return
+	 * @throws Exception
+	 */
+	public List<String> getFileInfoPathList(String folder) throws Exception {
+		List<String> result  = new ArrayList<String>();
+		
+		try {
+			String _path = folder;//"D:\\sample\\"; 
+	        
+	//        ListFile( strDirPath ); 
+			
+			Path dirPath = Paths.get(_path);
+			Stream<Path> walk = Files.walk(dirPath);
+			 
+			List<Path> list =  walk.filter(Files::isRegularFile)
+	//		                .filter(p -> p.getFileName().toString().equalsIgnoreCase(_name))
+			                .collect(Collectors.toList());
+			
+			for(int index=0;index<list.size();index++) {
+				Path path = list.get(index);
+				result.add(path.toString());
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+	
+	/**
 	 * 
 	 * @return
 	 * @throws Exception
@@ -113,6 +147,44 @@ public class FileInfoLogicService {
 		List<FileInfo> result = getFileInfoList(folder);
 			fileInfoService.batchInsert(result);
 		return result;
+	}
+	
+	public void moveFileTo(String filePath) {
+		try {
+			String pathString = "D://moveDir//";
+			Path directoryPath = Paths.get(pathString);
+			// 디렉토리 생성            
+			Files.createDirectories(directoryPath);
+			
+			//실제 하드 디스크의 파일 조회
+//			List<FileInfo> fileList = getFileInfoList(folder); 
+			
+			
+			String fileName = new File(filePath).getName();
+			Path oldFile = Paths.get("");
+			Path newFile = Paths.get(pathString+fileName);
+			
+			Files.move(oldFile, newFile, StandardCopyOption.ATOMIC_MOVE);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void deleteFileTo(String filePath) {
+		try {
+			File deleteFile = new File(filePath);
+			
+			//파일이 존재하는지 체크 존재할경우 true, 존재하지않을경우 false
+			if(deleteFile.exists()) {
+				deleteFile.delete();
+			}else {
+				
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	

@@ -33,10 +33,17 @@
  */
 package org.rb.sbsec.controller;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.rb.sbsec.exception.BadResourceException;
 import org.rb.sbsec.exception.ResourceAlreadyExistsException;
 import org.rb.sbsec.exception.ResourceNotFoundException;
@@ -49,7 +56,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -223,18 +229,19 @@ public class FileInfoController {
      * @return
      */
     @GetMapping(value = "/readFileList")
-    public ResponseEntity<List<FileInfo>> readFileList( @RequestParam("pageno") int pageno
-    		                                          , @RequestParam("pagesize") int pagesize
+    public ResponseEntity<List<FileInfo>> readFileList( @RequestParam("Paging") int Paging
+    		                                          , @RequestParam("Count") int Count
     		                                          , @RequestParam("folder") String folder) throws Exception {
-    	System.out.println("pageno : "+pageno);
-    	System.out.println("pagesize : "+pagesize);
+    	System.out.println("Paging : "+Paging);
+    	System.out.println("Count : "+Count);
     	System.out.println("folder : "+folder);
+//    	System.out.println("ibpage : "+ibpage);
     	
 //    	String folder = "D:\\torrent\\";
 //    	return ResponseEntity.ok(fileInfoLogicService.getFileInfoList(folder));
 //    	return ResponseEntity.ok(fileInfoLogicService.getFileInfoList());
 //    	return ResponseEntity.ok(fileInfoLogicService.getFileInfoTypeList("F"));
-    	return ResponseEntity.ok(fileInfoLogicService.getList(pageno,pagesize));
+    	return ResponseEntity.ok(fileInfoLogicService.getList(Paging,Count));
     	
     }
     
@@ -267,5 +274,114 @@ public class FileInfoController {
     	System.out.println("delFileList folder : "+folder);
 //    	String folder = "D:\\torrent\\";
     	 return ResponseEntity.status(HttpStatus.OK).build();
+    }
+    
+    
+    /**
+     * http://localhost:8080/file/deleteFile?dir=D:\torrent\down\【U6A6.LA】-全網最快國產網紅磁力_16144
+     * 
+     * aplication.properties에 설정 (특수문자를 파라메터로 받기)
+     * server.tomcat.relaxed-query-chars=\\,[,],{,},(,),^,|,"
+     * server.tomcat.relaxed-path-chars=\\,[,],{,},(,),^,|,"
+     * @param dir
+     */
+    @GetMapping("/deleteFile")
+    public void deleteFile(@RequestParam("dir") String dir) {
+    	
+//    	String directory ="D:\\torrent\\down\\【U6A6.LA】-全網最快國產網紅磁力_16144";
+    	
+    	try {
+    		String directory = new String(dir.getBytes("8859_1"),"UTF-8");
+    		System.out.println("directory : "+directory);
+    		
+    		List<String> fileRead = fileRead("C:\\workspace\\SpringBoot\\spring-boot-security-jpa-jsp-restapi\\src\\main\\webapp\\temp\\deleteList.txt");
+    		
+    		List<String> fileInfoList =  fileInfoLogicService.getFileInfoPathList(dir);
+    		
+    		for(int index=0;index<fileInfoList.size();index++) {
+    			if(fileInfoList.get(index).indexOf(".url") != -1) {
+    				File isFile = new File(fileInfoList.get(index));
+    				if(isFile.isFile()) {
+    					isFile.delete();
+    				}
+    			}
+    			
+    			for(int i=0;i<fileRead.size();i++) {
+    				if(fileInfoList.get(index).indexOf(fileRead.get(i)) != -1) {
+    					File isFile = new File(fileInfoList.get(index));
+        				if(isFile.isFile()) {
+        					System.out.println("delete File:"+fileInfoList.get(index));
+        					isFile.delete();
+        				}
+    				}
+    			}
+    			
+//    			if(fileInfoList.get(index).indexOf(".jpg") != -1)){
+//    				fileInfoLogicService.moveFileTo(fileInfoList.get(index));
+//    			}
+//    			if(fileInfoList.get(index).indexOf(".gif") != -1)){
+//    				fileInfoLogicService.moveFileTo(fileInfoList.get(index));
+//    			}
+    			
+    		}
+    		
+    		for(int index=0;index<fileInfoList.size();index++) {
+//    			FileInfo fileInfo = fileInfoList.get(index);
+    			System.out.println(fileInfoList.get(index));
+    		}
+    		
+//    		
+//    		File temp = new File("D:\\torrent\\down\\【U6A6.LA】-全網最快國產網紅磁力_16146\\文宣\\JAVHD社區\\｜JAVHD_DMM女优资源  ｜.url");
+//    		if(temp.isFile()) {
+//    		    System.out.println("파일이 존재 합니다.");
+//    		    
+//    		}else {
+//    			System.out.println("파일이 없습니다.");
+//    		}
+    	}catch(UnsupportedEncodingException e) {
+    		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    public void deleteDirectiory(String path) {
+    	// 폴더와 파일들 삭제
+    	File folder = new File(path);
+
+    	try {
+
+    	    if (folder.exists()) {
+    	    	FileUtils.cleanDirectory(folder);//하위 폴더와 파일 모두 삭제
+
+	    	    if (folder.isDirectory()) {
+	    	      folder.delete(); // 대상폴더 삭제
+	    	      System.out.println(folder + "폴더가 삭제되었습니다.");
+	    	    }
+    	    }
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    /**
+     * 
+     * @param path
+     */
+    public List<String> fileRead(String path) {
+    	List<String> result = new ArrayList<String>();
+    	try {
+	    	BufferedReader reader = new BufferedReader(new FileReader(path)); 
+	    	String str;
+	    	while ((str = reader.readLine()) != null) {
+	    		System.out.println(str);
+	    		result.add(str);
+	    	}         
+	    	reader.close();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return result;
     }
 }

@@ -26,7 +26,7 @@
             //메소드 타입 지정
             type : "GET",
             //요청 시 서버로 전달할 데이터 지정
-            data : { pageno : 1, pagesize : 40 , folder : "D:\\torrent\\"},
+            data : { Paging : 1, Count : 200 , folder : "D:\\torrent\\"},
             //요청 전송 전에 실행될 콜백 함수 지정
             beforeSend : function(xhr, settings) {
                 console.log("before Send");
@@ -93,7 +93,7 @@
         var OPT = {
              //틀고정 좌측 컬럼 설정
              Cfg:{
-            	 SearchMode:1
+            	 SearchMode:4
 //              Menu: {
 //                     Items: [
 //                         { Name: "title", Text: "바로가기", Value:"0" },
@@ -103,7 +103,42 @@
 //                         { Name: "title4", Text: "바로가기4", Value:"4" }
 //                     ]
 //                 }
-             }
+//             	, "InfoRowConfig": {
+//                      "Visible": true,
+//                      "Layout": [
+//                        "Paging",
+//                        "Count"
+//                      ]
+//                  }
+		    , InfoRowConfig: {
+		        "Visible": true,
+		        "Layout": ["Paging", {Value:"별도 표시하는 내용을 입력할 수 있습니다.", TextColor:"#FF0000"}, "Count"], // default: ["Paging","Count"])
+		        "Space": "Bottom",  // "Top", "Bottom" 위치 설정
+		        "Format": "CHANGEROWS개 행이 수정되었습니다." // Count 영역에 들어갈 내용
+		    }
+		    
+//             , InfoRowConfig: {
+//                  "Visible": true,
+//                  "Layout": ["Paging", {Value:"2019/01/05일 마감 예정입니다.", TextColor:"#FF0000"}, "Count"],
+//                  "Space": "Bottom",
+//                  "Format": "CHANGEROWS개 행이 수정되었습니다."
+//              }
+             // Layout의 Paging2 는 아래와 같이 설정합니다.
+//             , InfoRowConfig: {
+//                  "Visible": true,
+//                  "Layout": ["Paging2", {Value:"2019/01/05일 마감 예정입니다.", TextColor:"#FF0000"}, "Count"],
+//                  "ViewCount": 1, // selectBox 표시
+//                  "ViewFormat": "10|20|30|40|50", // selectBox option 구성
+//                  "Paging2Count": 8, // 페이지 네비게이션에 표시되는 페이지 number 개수
+//                  "Space": "Bottom"
+//              }
+//          // 원하는 Cell 타입 설정.
+//             , InfoRowConfig: {
+//                  "Visible": true,
+//                  "Layout": [{Value:"버튼", Type:"Button", Color:"#FF0000", OnClick: function(){alert("확인");}}, "Count"],
+//                  "Space": "Top"
+//              }
+        }
         , Events:{
                 onSelectMenu:function(evtParam){
                     // 메뉴에서 선택된 값으로 셀 값을 변경하기
@@ -194,12 +229,46 @@
 //                       samplePageObj.externalFunction.makePageIndex(page);
 //                     }
 //                   }
+                  onclick:function (evtParam){
+                	  console.log(evtParam);
+                	//현재 포커스가 위치한 페이지
+                	 var page = evtParam.sheet.getFocusedPage();
+                	 //페이지 인덱스 확인
+                	 var pidx = evtParam.sheet.getPageIndex(page);
+                	 
+                	 switch(evtParam.cellType){
+                	 case "Button":
+                		 if(evtParam.col == "PagerNext"){
+//                 			 console.log("■ page : "+JSON.stringify(page));
+
+                			 console.log("■ pidx  : "+pidx);
+                			 
+ console.log("■ page keys : "+Object.keys(page));
+ console.log("■ page values : "+Object.values(page));
+//  for(i of Object.values(page)) {
+// 	    console.log("loop : "+i);
+// 	}
+ 
+ for(var i=0;i<Object.values(page).length;i++){// Object.values(page)) {
+     console.log("["+Object.keys(page)[i]+"] : "+Object.values(page)[i]);
+ }
+ 
+//  alert(page.page);
+ 
+                		 }
+                		 break;
+                	 }
+                	 
+                	 
+//                 	 alert(page+"/"+pidx);
+                 }
              },
               "LeftCols": [
                 {"Type": "Int","Width": 50,"Align": "Center","Name": "SEQ"}
               ],
                 //각 열에 대한 정의 (열의 이름, 유형(Type), 포맷(Format)등을 설정)
                 //열의 "Type"과 "Name" 속성은 반드시 설정되어야 합니다.
+                 "total":201,  //Paging 조회시에만 필요(최초 조회때 한번만 필요)
                 Cols:[
                 	{Header: "체크",  Name: "chk",           Type: "Bool"}
                     , {Header: "아이디",  Name: "id",           Type: "Text"}
