@@ -43,6 +43,7 @@ public class FileInfo implements Serializable {
 	private Timestamp updateDt;
 	
 	private String type = "F";
+	private String filePath;
 	
 //	private String 
 	

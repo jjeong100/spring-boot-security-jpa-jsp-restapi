@@ -56,6 +56,12 @@ public class FileInfoLogicService {
 				info.setFileType("M");
 				info.setDelYn("N");
 				info.setActionYn("N");
+				info.setFilePath(path.getParent()+"\\"+path.getFileName());
+//				if("jpg".equals(info.getFileExt().toLowerCase())) {
+//					info.setTagImg("<img src='"+info.getDirectory()+File.separator+info.getFileName()+"'/>");
+//				}else {
+//					info.setTagImg("");
+//				}
 				result.add(info);
 			}
 //			for(FileInfo Info:result) {

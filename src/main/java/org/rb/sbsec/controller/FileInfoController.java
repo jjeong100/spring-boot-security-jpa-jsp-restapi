@@ -238,10 +238,10 @@ public class FileInfoController {
 //    	System.out.println("ibpage : "+ibpage);
     	
 //    	String folder = "D:\\torrent\\";
-//    	return ResponseEntity.ok(fileInfoLogicService.getFileInfoList(folder));
+    	return ResponseEntity.ok(fileInfoLogicService.getFileInfoList(folder));
 //    	return ResponseEntity.ok(fileInfoLogicService.getFileInfoList());
 //    	return ResponseEntity.ok(fileInfoLogicService.getFileInfoTypeList("F"));
-    	return ResponseEntity.ok(fileInfoLogicService.getList(Paging,Count));
+//    	return ResponseEntity.ok(fileInfoLogicService.getList(Paging,Count));
     	
     }
     
