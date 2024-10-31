@@ -78,7 +78,7 @@
 //                 var newImage = document.createElement('img');
 //                 newImage.src = data;
 // $("#showImage").html(data);
-$("#showVideo").html( data);
+            $("#showVideo").html( data);
 // $("#showImage").attr("src", "data:image/png;base64," + data);
             },
             error : function(xhr, status, error) {
@@ -121,7 +121,7 @@ $("#showVideo").html( data);
                                   $("#imgView").attr("src", "/web/img?filepath="+imgSrc);
                                 break;
                                 default:
-//                                 	$("#showVideo").html("/web/img?filepath="+imgSrc);
+//                                 $("#showVideo").html("/web/img?filepath="+imgSrc);
 //                                 loadUrl(imgSrc);
                                     break;
                             }
@@ -149,18 +149,18 @@ $("#showVideo").html( data);
               ],
                  "total":201,  //Paging 조회시에만 필요(최초 조회때 한번만 필요)
                 Cols:[
-                      {Header: "체크",    Name: "chk",           Type: "Bool"}
+                      {Header: "체크",    Name: "chk",         Type: "Bool"}
                     , {Header: "아이디",  Name: "id",           Type: "Text"}
                     , {Header: "파일이름", Name: "fileName",    Type: "Text"}
-                    , {Header: "확장자",  Name: "fileExt",     Type: "Text"}
-                    , {Header: "사이즈",  Name: "fileSize",    Type: "Text"}
-                    , {Header: "위치",   Name: "directory",   Type: "Text"}
-                    , {Header: "타입",   Name: "fileType",    Type: "Text"}
-                    , {Header: "삭제",   Name: "delYn",       Type: "Text"}
-                    , {Header: "사용",   Name: "actionYn",    Type: "Text"}
-                    , {Header: "수정일",  Name: "updateDt",    Type: "Text"}
+                    , {Header: "확장자",   Name: "fileExt",     Type: "Text"}
+                    , {Header: "사이즈",   Name: "fileSize",    Type: "Text"}
+                    , {Header: "위치",    Name: "directory",   Type: "Text"}
+                    , {Header: "타입",    Name: "fileType",    Type: "Text"}
+                    , {Header: "삭제",    Name: "delYn",       Type: "Text"}
+                    , {Header: "사용",    Name: "actionYn",    Type: "Text"}
+                    , {Header: "수정일",   Name: "updateDt",    Type: "Text"}
                     , {Header: "내용",    Name: "fileComment", Type: "Text"}//Align: "center"
-                    , {Header: "파일경로",   Name: "filePath", Type: "Text"}
+                    , {Header: "파일경로", Name: "filePath",    Type: "Text"}
                 ]
         };
         
